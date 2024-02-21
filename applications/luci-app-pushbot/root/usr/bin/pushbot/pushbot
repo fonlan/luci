@@ -509,16 +509,16 @@ function get_client(){
 	if [ -f "${dir}ipAddress" ]; then
 	while read line; do
 		local js_str="${js_str}<div class='tr placeholder'>"
-		local js_str="${js_str}<div class='th'><%:`echo "$line"|awk '{print $3}'`%></div>"
+		local js_str="${js_str}<div class='td'><%:`echo "$line"|awk '{print $3}'`%></div>"
 		local tmp_mac=`echo "$line"|awk '{print $2}'`
-		local js_str="${js_str}<div class='th'><%:${tmp_mac}%></div>"
-		local js_str="${js_str}<div class='th'><%:`echo "$line"|awk '{print $1}'`%></div>"
+		local js_str="${js_str}<div class='td'><%:${tmp_mac}%></div>"
+		local js_str="${js_str}<div class='td'><%:`echo "$line"|awk '{print $1}'`%></div>"
 		local tmp_usage=`usage get ${tmp_mac}`
-		local js_str="${js_str}<div class='th'><%:${tmp_usage}%></div>"
+		local js_str="${js_str}<div class='td'><%:${tmp_usage}%></div>"
 		local tmp_uptime=`echo "$line"|awk '{print $4}'`
 		local tmp_timenow=`date +%s`
 		local tmp_uptime=$(time_for_humans `expr ${tmp_timenow} - ${tmp_uptime}`)
-		local js_str="${js_str}<div class='th'><%:${tmp_uptime}%></div></div>"
+		local js_str="${js_str}<div class='td'><%:${tmp_uptime}%></div></div>"
 	done < ${dir}ipAddress
 	fi
 cat>/usr/lib/lua/luci/view/pushbot/pushbot_client.htm<<EOF
