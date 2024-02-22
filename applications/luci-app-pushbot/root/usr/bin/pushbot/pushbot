@@ -508,23 +508,23 @@ function blackwhitelist(){
 function get_client(){
 	if [ -f "${dir}ipAddress" ]; then
 	while read line; do
-		local js_str="${js_str}<div class='tr placeholder'>"
-		local js_str="${js_str}<div class='td'><%:`echo "$line"|awk '{print $3}'`%></div>"
+		local js_str="${js_str}<tr class='cbi-section-table-row'>"
+		local js_str="${js_str}<td class='cbi-section-table-cell'><%:`echo "$line"|awk '{print $3}'`%></td>"
 		local tmp_mac=`echo "$line"|awk '{print $2}'`
-		local js_str="${js_str}<div class='td'><%:${tmp_mac}%></div>"
-		local js_str="${js_str}<div class='td'><%:`echo "$line"|awk '{print $1}'`%></div>"
+		local js_str="${js_str}<td class='cbi-section-table-cell'><%:${tmp_mac}%></td>"
+		local js_str="${js_str}<td class='cbi-section-table-cell'><%:`echo "$line"|awk '{print $1}'`%></td>"
 		local tmp_usage=`usage get ${tmp_mac}`
-		local js_str="${js_str}<div class='td'><%:${tmp_usage}%></div>"
+		local js_str="${js_str}<td class='cbi-section-table-cell'><%:${tmp_usage}%></td>"
 		local tmp_uptime=`echo "$line"|awk '{print $4}'`
 		local tmp_timenow=`date +%s`
 		local tmp_uptime=$(time_for_humans `expr ${tmp_timenow} - ${tmp_uptime}`)
-		local js_str="${js_str}<div class='td'><%:${tmp_uptime}%></div></div>"
+		local js_str="${js_str}<td class='cbi-section-table-cell'><%:${tmp_uptime}%></td></tr>"
 	done < ${dir}ipAddress
 	fi
 cat>/usr/lib/lua/luci/view/pushbot/pushbot_client.htm<<EOF
-<h2><%:在线设备列表%></h2><div class="table" id="traffic"><div class="tr table-titles"><div class="th" id="thClient" style="width:17%"><%:客户端名%></div><div class="th" id="thMAC" style="width:10%"><%:MAC%></div><div class="th" id="thIP" style="width:17%"><%:IP%></div><div class="th" id="thTotal" style="width:9%"><%:总计流量%></div><div class="th" id="thFirstSeen" style="width:15%"><%:在线时间%></div></div>
+<h2><%:在线设备列表%></h2><table class="cbi-section-table" id="device_list_table"><tr class="cbi-section-table-titles"><th class="cbi-section-table-cell" id="thClient" style="width:17%"><%:客户端名%></th><th class="cbi-section-table-cell" id="thMAC" style="width:10%"><%:MAC%></th><th class="cbi-section-table-cell" id="thIP" style="width:17%"><%:IP%></th><th class="cbi-section-table-cell" id="thTotal" style="width:9%"><%:总计流量%></th><th class="cbi-section-table-cell" id="thFirstSeen" style="width:15%"><%:在线时间%></th></tr>
 $js_str
-</div>
+</table>
 EOF
 }
 
